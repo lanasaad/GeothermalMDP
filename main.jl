@@ -1,41 +1,24 @@
-using POMDPSimulators
+using Distributions
 using POMDPTools
-using POMDPPolicies
+using Plots
+using Random
 
-include("pomdp.jl")
+include("src/pomdp.jl")
+include("src/policy.jl")
+include("src/utils.jl")
 
-g=GeothermalMDP()
+rng = MersenneTwister(1)
+mdp = GeothermalMDP()
 
-# rand_policy(g::GeothermalMDP, s::State) = rand(actions(g))
+# random policy
+policy = BuildRandom(mdp)
+hr = HistoryRecorder(max_steps=30)
+@time rhist = simulate(hr, mdp, policy);
 
-#first iteration
-s = initialstate(g)
-#a = rand_policy(g, s)
-policy = RandomPolicy(g)
+# save gif
+filename = "figs/geothermal.gif"
+year = 2024
+fps = 4
+save_gif(rhist, filename, year, fps)
 
-actions(g)
-a = action(policy, s)
-a.injector, a.producer
-
-sp = rand(transition(g,s,a))
-r = reward(g,s,a,sp)
-sum(sp.well_states)
-
-injectors = findall(x -> x==INJECTION_WELL, sp.well_states)
-producers = findall(x -> x==PRODUCTION_WELL,sp.well_states)
-
-w1 = injectors[1]
-typeof(w1)
-#2nd iteration
-s = deepcopy(sp)
-a = rand_policy(g, s)
-sp = rand(transition(g,s,a))
-r = reward(g,s,a,sp)
-
-
-s = deepcopy(sp)
-a = rand_policy(g, s)
-sp = rand(transition(g,s,a))
-r = reward(g,s,a,sp)
-
-c = states(g)
+println("Done, gif saved to $filename.")
