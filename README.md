@@ -10,9 +10,7 @@ This repo contains a simplified MDP model for Geothermal reservoir planning and 
 ## Example
 
 ```julia
-using Distributions
 using POMDPTools
-using Plots
 using Random
 
 include("src/pomdp.jl")
@@ -29,16 +27,6 @@ hr = HistoryRecorder(max_steps=30)
 ```
 
 
-## Structure
-
-.
-├── data                    
-│   └── reservoir.csv       # reservoir model (x, y, temperature, pressure, ...)
-├── figs                    
-│   └──  geothermal.gif                   
-├── src                     
-├── test                    
-└── README.md               
-
+## Data
 
 Place your reservoir model `reservoir.csv` in the `data` dir

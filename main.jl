@@ -12,7 +12,7 @@ mdp = GeothermalMDP()
 
 # random policy
 policy = BuildRandom(mdp)
-hr = HistoryRecorder(max_steps=30)
+hr = HistoryRecorder(max_steps = 30)
 @time rhist = simulate(hr, mdp, policy);
 
 # save gif
